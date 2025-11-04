@@ -1,12 +1,5 @@
 fileFormatVersion: 2
-guid: 40de9a8703e2e5a47882b0b86451c741
-AssetOrigin:
-  serializedVersion: 1
-  productId: 155360
-  packageName: Pixel Adventure 1
-  packageVersion: 1.0
-  assetPath: Assets/Pixel Adventure 1/Assets/Main Characters/Virtual Guy/Idle (32x32).png
-  uploadId: 332803
+guid: 46630dedd93e25941a827cc90dc27302
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
