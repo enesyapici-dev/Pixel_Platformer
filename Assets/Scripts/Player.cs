@@ -64,7 +64,7 @@ public class Player : MonoBehaviour
         HandleCollisions();
         HandleAnimations();
     }
-    private void Knockback()
+    public void Knockback()
     {
         if (isKnocked)
             return;
