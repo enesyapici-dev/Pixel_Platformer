@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 
     public Player player;
     [SerializeField] private GameObject playerPrefab;
-    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private Transform respawnPoint;
     [SerializeField] private float respawnDelay;
 
     [Header("Fruit Management")]
@@ -26,7 +26,10 @@ public class GameManager : MonoBehaviour
         else
             Destroy(gameObject);
     }
-
+    public void UpdateRespawnPoint(Transform newRespawnPoint)
+    {
+        respawnPoint = newRespawnPoint;
+    }
     public void RespawnPlayer() => StartCoroutine(RespawnCoroutine());
 
 
@@ -34,7 +37,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(respawnDelay);
 
-        GameObject newPlayer = Instantiate(playerPrefab, spawnPoint.position, quaternion.identity);
+        GameObject newPlayer = Instantiate(playerPrefab, respawnPoint.position, quaternion.identity);
         player = newPlayer.GetComponent<Player>();
     }
     public void AddFruit() => fruitsCollected++;
