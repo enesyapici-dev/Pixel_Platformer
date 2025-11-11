@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.XR;
 
@@ -34,6 +35,8 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask whatIsGround;
     private bool isGrounded;
     private bool isAirborne;
+    [Header("VFX")]
+    [SerializeField] private GameObject deathVFX;
 
     [Header("References and Variables")]
     private bool facingRight = true;
@@ -82,6 +85,11 @@ public class Player : MonoBehaviour
         isKnocked = false;
     }
 
+    public void Die()
+    {
+        Instantiate(deathVFX, transform.position, quaternion.identity);
+        Destroy(gameObject);
+    }
 
     private void UpdateAirborneStatus()
     {
