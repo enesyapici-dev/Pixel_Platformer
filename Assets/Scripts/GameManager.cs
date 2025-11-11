@@ -1,10 +1,18 @@
+using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
 
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+
+    [Header("Player")]
+
     public Player player;
+    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private float respawnDelay;
 
     [Header("Fruit Management")]
 
@@ -19,8 +27,19 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
     }
 
+    public void RespawnPlayer() => StartCoroutine(RespawnCoroutine());
+
+
+    private IEnumerator RespawnCoroutine()
+    {
+        yield return new WaitForSeconds(respawnDelay);
+
+        GameObject newPlayer = Instantiate(playerPrefab, spawnPoint.position, quaternion.identity);
+        player = newPlayer.GetComponent<Player>();
+    }
     public void AddFruit() => fruitsCollected++;
     public bool FruitsHaveRandomLook() => fruitsHaveRandomLook;
+
 
 
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Security.Cryptography;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.XR;
@@ -7,10 +8,13 @@ using UnityEngine.XR;
 public class Player : MonoBehaviour
 {
     [Header("Movement")]
+
     [SerializeField] private float moveSpeed;
     [SerializeField] private float jumpForce;
     [SerializeField] private float doubleJumpForce;
     private bool canDoubleJump;
+    private bool canBeControlled;
+    private float defaultGravityScale;
 
     [Header("Wall Instructions")]
     [SerializeField] private float wallJumpDuration = .6f;
@@ -43,19 +47,28 @@ public class Player : MonoBehaviour
     private int facingDir = 1;
     private Rigidbody2D rb;
     private Animator anim;
+    private CapsuleCollider2D cd;
     private float xInput;
     private float yInput;
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
+        cd = GetComponent<CapsuleCollider2D>();
     }
-
+    void Start()
+    {
+        defaultGravityScale = rb.gravityScale;
+        RespawnFinished(false);
+    }
 
     void Update()
     {
 
         UpdateAirborneStatus();
+
+        if (!canBeControlled)
+            return;
 
         if (isKnocked)
             return;
@@ -66,6 +79,22 @@ public class Player : MonoBehaviour
         HandleFlip();
         HandleCollisions();
         HandleAnimations();
+    }
+    public void RespawnFinished(bool finished)
+    {
+        if (finished)
+        {
+            rb.gravityScale = defaultGravityScale;
+            canBeControlled = true;
+            cd.enabled = true;
+
+        }
+        else
+        {
+            rb.gravityScale = 0;
+            canBeControlled = false;
+            cd.enabled = false;
+        }
     }
     public void Knockback()
     {
