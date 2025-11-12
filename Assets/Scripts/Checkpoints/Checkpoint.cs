@@ -5,8 +5,13 @@ using UnityEngine;
 public class Checkpoint : MonoBehaviour
 {
     [SerializeField] private bool canBeReactivated;
-    private Animator anim => GetComponent<Animator>();
     private bool active;
+    private Animator anim => GetComponent<Animator>();
+
+    void Start()
+    {
+        canBeReactivated = GameManager.instance.canReactivate;
+    }
 
     void OnTriggerEnter2D(Collider2D collision)
     {

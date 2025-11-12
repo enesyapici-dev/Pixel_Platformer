@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7877232043651354877}
   - component: {fileID: 3710970012620628755}
   - component: {fileID: 9203101362617344734}
+  - component: {fileID: -3777447796161272865}
   m_Layer: 0
   m_Name: Pickup_VFX
   m_TagString: Untagged
@@ -110,3 +111,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-3777447796161272865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4425951237499298457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73fadcc44d49d3d45b2f09ca735adc17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
