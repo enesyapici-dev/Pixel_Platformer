@@ -7,8 +7,11 @@ public class TrapSaw : MonoBehaviour
     private SpriteRenderer sr;
     [SerializeField] private float moveSpeed = 3;
     [SerializeField] private Transform[] wayPoints;
+    [SerializeField] private Vector3[] wayPointPositions;
+
     [SerializeField] private float cooldown = 1;
     public int wayPointIndex = 1;
+    private int moveDirection = 1;
     private bool canMove = true;
 
     private void Awake()
@@ -33,14 +36,11 @@ public class TrapSaw : MonoBehaviour
 
         if (Vector2.Distance(transform.position, wayPoints[wayPointIndex].position) < 0.1f)
         {
-            wayPointIndex++;
-
-            if (wayPointIndex >= wayPoints.Length)
+            if (wayPointIndex == wayPoints.Length - 1 || wayPointIndex == 0)
             {
-                wayPointIndex = 0;
-                StartCoroutine(StopMovement(cooldown));
-
+                moveDirection = moveDirection * -1;
             }
+            wayPointIndex = wayPointIndex + moveDirection;
         }
 
     }
