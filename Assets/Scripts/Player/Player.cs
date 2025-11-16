@@ -96,13 +96,19 @@ public class Player : MonoBehaviour
             cd.enabled = false;
         }
     }
-    public void Knockback()
+    public void Knockback(float sourceDamageXPos)
+
     {
+        float knockbackDir = 1;
+        if (transform.position.x < sourceDamageXPos)
+        {
+            knockbackDir = -1;
+        }
         if (isKnocked)
             return;
 
         StartCoroutine(KnockbackRoutine());
-        rb.linearVelocity = new Vector2(knockbackPower.x * -facingDir, knockbackPower.y);
+        rb.linearVelocity = new Vector2(knockbackPower.x * knockbackDir, knockbackPower.y);
     }
     private IEnumerator KnockbackRoutine()
     {
