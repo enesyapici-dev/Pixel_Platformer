@@ -7,9 +7,8 @@ public class TrapSaw : MonoBehaviour
     private SpriteRenderer sr;
     [SerializeField] private float moveSpeed = 3;
     [SerializeField] private Transform[] wayPoints;
-    [SerializeField] private Vector3[] wayPointPositions;
-
     [SerializeField] private float cooldown = 1;
+    private Vector3[] wayPointPositions;
     public int wayPointIndex = 1;
     private int moveDirection = 1;
     private bool canMove = true;
@@ -23,7 +22,19 @@ public class TrapSaw : MonoBehaviour
 
     private void Start()
     {
-        transform.position = wayPoints[0].position;
+        UpdateWayPointsInfo();
+        transform.position = wayPointPositions[0];
+
+    }
+
+    private void UpdateWayPointsInfo()
+    {
+        wayPointPositions = new Vector3[wayPoints.Length];
+
+        for (int i = 0; i < wayPoints.Length; i++)
+        {
+            wayPointPositions[i] = wayPoints[i].position;
+        }
     }
 
     private void Update()
@@ -32,13 +43,14 @@ public class TrapSaw : MonoBehaviour
         if (!canMove)
             return;
 
-        transform.position = Vector2.MoveTowards(transform.position, wayPoints[wayPointIndex].position, moveSpeed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, wayPointPositions[wayPointIndex], moveSpeed * Time.deltaTime);
 
-        if (Vector2.Distance(transform.position, wayPoints[wayPointIndex].position) < 0.1f)
+        if (Vector2.Distance(transform.position, wayPointPositions[wayPointIndex]) < 0.1f)
         {
-            if (wayPointIndex == wayPoints.Length - 1 || wayPointIndex == 0)
+            if (wayPointIndex == wayPointPositions.Length - 1 || wayPointIndex == 0)
             {
                 moveDirection = moveDirection * -1;
+                StartCoroutine(StopMovement(cooldown));
             }
             wayPointIndex = wayPointIndex + moveDirection;
         }
