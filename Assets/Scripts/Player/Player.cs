@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Security.Cryptography;
 using Unity.Mathematics;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.XR;
 
@@ -68,7 +69,11 @@ public class Player : MonoBehaviour
         UpdateAirborneStatus();
 
         if (!canBeControlled)
+        {
+            HandleAnimations();
+            HandleCollisions();
             return;
+        }
 
         if (isKnocked)
             return;
@@ -125,6 +130,22 @@ public class Player : MonoBehaviour
     {
         Instantiate(deathVFX, transform.position, quaternion.identity);
         Destroy(gameObject);
+    }
+
+    public void Push(Vector2 direction, float duration)
+    {
+        StartCoroutine(PushCouroutine(direction, duration));
+    }
+
+    private IEnumerator PushCouroutine(Vector2 direction, float duration)
+    {
+        canBeControlled = false;
+        rb.linearVelocity = Vector2.zero;
+        rb.AddForce(direction, ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds(duration);
+
+        canBeControlled = true;
     }
 
     private void UpdateAirborneStatus()
